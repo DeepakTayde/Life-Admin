@@ -20,32 +20,36 @@ export function StatCard({
     switch (variant) {
       case 'warning':
         return {
-          bg: 'bg-amber-50/60 border-amber-200/80',
-          iconBg: 'bg-amber-100 text-amber-700',
-          textColor: 'text-amber-950',
-          valueColor: 'text-amber-700',
+          topBorder: 'border-t-4 border-t-[#d97706]',
+          iconBg: 'bg-[#d97706]/10 text-[#d97706]',
+          valueColor: 'text-[#d97706]',
+          badgeText: 'Action in ≤ 30 Days',
+          badgeBg: 'bg-[#d97706]/15 text-[#b45309]',
         };
       case 'danger':
         return {
-          bg: 'bg-rose-50/60 border-rose-200/80',
-          iconBg: 'bg-rose-100 text-rose-700',
-          textColor: 'text-rose-950',
-          valueColor: 'text-rose-700',
+          topBorder: 'border-t-4 border-t-[#c62828]',
+          iconBg: 'bg-[#c62828]/10 text-[#c62828]',
+          valueColor: 'text-[#c62828]',
+          badgeText: 'Action Required',
+          badgeBg: 'bg-[#c62828]/15 text-[#991b1b]',
         };
       case 'success':
         return {
-          bg: 'bg-emerald-50/60 border-emerald-200/80',
-          iconBg: 'bg-emerald-100 text-emerald-700',
-          textColor: 'text-emerald-950',
-          valueColor: 'text-emerald-700',
+          topBorder: 'border-t-4 border-t-[#2e7d32]',
+          iconBg: 'bg-[#2e7d32]/10 text-[#2e7d32]',
+          valueColor: 'text-[#2e7d32]',
+          badgeText: 'Verified & Active',
+          badgeBg: 'bg-[#2e7d32]/15 text-[#1b5e20]',
         };
       case 'default':
       default:
         return {
-          bg: 'bg-white border-slate-200/90',
-          iconBg: 'bg-indigo-50 text-indigo-700',
-          textColor: 'text-slate-900',
-          valueColor: 'text-slate-900',
+          topBorder: 'border-t-4 border-t-[#0b3b60]',
+          iconBg: 'bg-[#0b3b60]/10 text-[#0b3b60]',
+          valueColor: 'text-[#0b3b60]',
+          badgeText: 'National Registry',
+          badgeBg: 'bg-[#0b3b60]/10 text-[#0b3b60]',
         };
     }
   };
@@ -54,20 +58,29 @@ export function StatCard({
 
   return (
     <div
-      className={`rounded-2xl border p-5 sm:p-6 shadow-xs transition hover:shadow-md ${styles.bg}`}
+      className={`bg-white rounded-lg border border-[#dcdcdc] p-4 sm:p-5 shadow-xs transition hover:shadow-md ${styles.topBorder}`}
     >
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-slate-600">{title}</span>
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${styles.iconBg}`}>
-          <Icon className="w-5 h-5" />
+        <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+          {title}
+        </span>
+        <div className={`w-8 h-8 rounded-md flex items-center justify-center ${styles.iconBg}`}>
+          <Icon className="w-4 h-4" />
         </div>
       </div>
-      <div className="mt-4">
-        <span className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${styles.valueColor}`}>
+
+      <div className="mt-3 flex items-baseline justify-between">
+        <span className={`text-3xl sm:text-4xl font-black tracking-tight ${styles.valueColor}`}>
           {value}
         </span>
-        <p className="mt-1 text-xs text-slate-500 font-medium">{subtitle}</p>
+        <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${styles.badgeBg}`}>
+          {styles.badgeText}
+        </span>
       </div>
+
+      <p className="mt-2 text-[11px] text-slate-500 font-medium border-t border-slate-100 pt-2">
+        {subtitle}
+      </p>
     </div>
   );
 }

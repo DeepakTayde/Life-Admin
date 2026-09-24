@@ -115,28 +115,28 @@ export function getStatusBadgeConfig(status: DocumentStatus): {
   switch (status) {
     case 'ACTIVE':
       return {
-        label: 'Active',
-        badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
-        dotClass: 'bg-emerald-500',
+        label: 'Active / Verified',
+        badgeClass: 'bg-[#2e7d32] text-white border-[#256629]',
+        dotClass: 'bg-white',
       };
     case 'EXPIRING_SOON':
       return {
         label: 'Expiring Soon',
-        badgeClass: 'bg-amber-50 text-amber-800 border-amber-200/80',
-        dotClass: 'bg-amber-500 animate-pulse',
+        badgeClass: 'bg-[#d97706] text-white border-[#b45309]',
+        dotClass: 'bg-white animate-pulse',
       };
     case 'EXPIRED':
       return {
-        label: 'Expired',
-        badgeClass: 'bg-rose-50 text-rose-700 border-rose-200/80',
-        dotClass: 'bg-rose-500',
+        label: 'Expired / Action Required',
+        badgeClass: 'bg-[#c62828] text-white border-[#a81e1e]',
+        dotClass: 'bg-white',
       };
     case 'NO_EXPIRY':
     default:
       return {
         label: 'No Expiry',
-        badgeClass: 'bg-slate-100 text-slate-700 border-slate-200',
-        dotClass: 'bg-slate-400',
+        badgeClass: 'bg-[#546e7a] text-white border-[#455a64]',
+        dotClass: 'bg-white',
       };
   }
 }

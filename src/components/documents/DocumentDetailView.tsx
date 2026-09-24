@@ -18,6 +18,7 @@ import {
   Clock,
   Copy,
   Check,
+  ShieldCheck,
 } from 'lucide-react';
 
 interface DocumentDetailViewProps {
@@ -59,140 +60,155 @@ export function DocumentDetailView({ document }: DocumentDetailViewProps) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-5">
       {/* Back link */}
       <div>
         <Link
           href="/documents"
-          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-900 transition"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0b3b60] hover:text-[#154a75] transition"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to all documents</span>
+          <span>Back to Document Vault</span>
         </Link>
       </div>
 
       {/* Main Detail Card */}
-      <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-8 space-y-6">
-        {/* Title and Top Badges */}
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-6 border-b border-slate-100">
-          <div className="space-y-2">
+      <div className="bg-white rounded-lg border border-[#dcdcdc] shadow-xs overflow-hidden">
+        {/* Header Bar */}
+        <div className="bg-[#0b3b60] text-white p-4 sm:p-5 border-b-2 border-[#ff9933] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <CategoryBadge category={document.category} />
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-white/15 text-white">
+                Official Record #{document.id.slice(0, 8)}
+              </span>
               <StatusBadge
                 status={document.status || 'ACTIVE'}
                 daysUntilExpiry={document.daysUntilExpiry}
                 showDays={true}
               />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-black text-white mt-1">
               {document.title}
             </h1>
           </div>
 
-          {/* Action buttons */}
           <div className="flex items-center gap-2 self-start sm:self-auto">
             <Link
               href={`/documents/${document.id}/edit`}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-800 bg-white hover:bg-slate-100 rounded transition shadow-xs"
             >
-              <Edit3 className="w-4 h-4" />
-              <span>Edit</span>
+              <Edit3 className="w-3.5 h-3.5 text-[#0b3b60]" />
+              <span>Update</span>
             </Link>
 
             <button
+              type="button"
               onClick={() => setIsDeleteModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl transition"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-[#c62828] hover:bg-[#a81e1e] rounded transition shadow-xs"
             >
-              <Trash2 className="w-4 h-4" />
-              <span>Delete</span>
+              <Trash2 className="w-3.5 h-3.5" />
+              <span>Expunge</span>
             </button>
           </div>
         </div>
 
-        {/* Key Info Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* Document Number */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1">
-            <div className="flex items-center justify-between text-xs font-medium text-slate-500">
-              <span className="flex items-center gap-1.5">
-                <Hash className="w-3.5 h-3.5 text-slate-400" />
-                <span>Document / Policy No.</span>
-              </span>
-              {document.documentNumber && (
-                <button
-                  onClick={handleCopyDocNumber}
-                  className="text-slate-400 hover:text-indigo-600 p-0.5"
-                  title="Copy number"
-                >
-                  {copied ? (
-                    <Check className="w-3.5 h-3.5 text-emerald-600" />
-                  ) : (
-                    <Copy className="w-3.5 h-3.5" />
-                  )}
-                </button>
-              )}
-            </div>
-            <p className="font-mono text-sm sm:text-base font-bold text-slate-900">
-              {document.documentNumber || <span className="text-slate-400 font-sans font-normal italic">None provided</span>}
-            </p>
+        <div className="p-5 sm:p-6 space-y-6">
+          {/* Classification & Category */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-500 font-semibold">Classification:</span>
+            <CategoryBadge category={document.category} />
           </div>
 
-          {/* Expiry Date */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <Calendar className="w-3.5 h-3.5 text-slate-400" />
-              <span>Expiry / Renewal Date</span>
+          {/* Key Info Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Document Number */}
+            <div className="p-3.5 rounded bg-[#f4f6f9] border border-[#dcdcdc] space-y-1">
+              <div className="flex items-center justify-between text-xs font-semibold text-slate-600">
+                <span className="flex items-center gap-1.5">
+                  <Hash className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Document / Reference No.</span>
+                </span>
+                {document.documentNumber && (
+                  <button
+                    type="button"
+                    onClick={handleCopyDocNumber}
+                    className="text-slate-500 hover:text-[#0b3b60] p-0.5"
+                    title="Copy reference number"
+                  >
+                    {copied ? (
+                      <Check className="w-3.5 h-3.5 text-[#2e7d32]" />
+                    ) : (
+                      <Copy className="w-3.5 h-3.5" />
+                    )}
+                  </button>
+                )}
+              </div>
+              <p className="font-mono text-sm sm:text-base font-bold text-slate-900">
+                {document.documentNumber || (
+                  <span className="text-slate-400 font-sans font-normal italic text-xs">
+                    Not recorded
+                  </span>
+                )}
+              </p>
             </div>
-            <p className="text-sm sm:text-base font-bold text-slate-900">
-              {formatDate(document.expiryDate)}
-            </p>
+
+            {/* Expiry Date */}
+            <div className="p-3.5 rounded bg-[#f4f6f9] border border-[#dcdcdc] space-y-1">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+                <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                <span>Statutory Expiry / Renewal Date</span>
+              </div>
+              <p className="text-sm sm:text-base font-bold text-slate-900 font-mono">
+                {formatDate(document.expiryDate)}
+              </p>
+            </div>
+
+            {/* Issue Date */}
+            <div className="p-3.5 rounded bg-[#f4f6f9] border border-[#dcdcdc] space-y-1">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+                <Clock className="w-3.5 h-3.5 text-slate-400" />
+                <span>Issue / Registration Date</span>
+              </div>
+              <p className="text-sm font-semibold text-slate-800 font-mono">
+                {formatDate(document.issueDate)}
+              </p>
+            </div>
+
+            {/* Days Remaining / Status summary */}
+            <div className="p-3.5 rounded bg-[#f4f6f9] border border-[#dcdcdc] space-y-1">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+                <FileText className="w-3.5 h-3.5 text-slate-400" />
+                <span>Renewal Timeline</span>
+              </div>
+              <p className="text-sm font-bold text-slate-900">
+                {document.daysUntilExpiry === null || document.daysUntilExpiry === undefined
+                  ? 'No expiry date configured'
+                  : document.daysUntilExpiry < 0
+                  ? `Overdue by ${Math.abs(document.daysUntilExpiry)} days`
+                  : document.daysUntilExpiry === 0
+                  ? 'Expires today!'
+                  : `${document.daysUntilExpiry} days remaining`}
+              </p>
+            </div>
           </div>
 
-          {/* Issue Date */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <Clock className="w-3.5 h-3.5 text-slate-400" />
-              <span>Issue Date</span>
+          {/* Notes */}
+          {document.notes && (
+            <div className="space-y-1.5 pt-1">
+              <h2 className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+                Statutory Notes &amp; Policy Details
+              </h2>
+              <div className="p-3.5 rounded bg-slate-50 border border-[#dcdcdc] text-xs text-slate-700 leading-relaxed whitespace-pre-wrap">
+                {document.notes}
+              </div>
             </div>
-            <p className="text-sm font-semibold text-slate-800">
-              {formatDate(document.issueDate)}
-            </p>
-          </div>
+          )}
 
-          {/* Days Remaining / Status summary */}
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <FileText className="w-3.5 h-3.5 text-slate-400" />
-              <span>Renewal Timeline</span>
-            </div>
-            <p className="text-sm font-semibold text-slate-800">
-              {document.daysUntilExpiry === null || document.daysUntilExpiry === undefined
-                ? 'No expiry date configured'
-                : document.daysUntilExpiry < 0
-                ? `Expired ${Math.abs(document.daysUntilExpiry)} days ago`
-                : document.daysUntilExpiry === 0
-                ? 'Expires today!'
-                : `${document.daysUntilExpiry} days remaining`}
-            </p>
+          {/* Record Metadata */}
+          <div className="pt-3 border-t border-slate-200 flex flex-wrap items-center justify-between text-[11px] text-slate-500 gap-2">
+            <span>Registered: {formatDate(document.createdAt)}</span>
+            <span>Last Updated: {formatDate(document.updatedAt)}</span>
           </div>
-        </div>
-
-        {/* Notes */}
-        {document.notes && (
-          <div className="space-y-2 pt-2">
-            <h2 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-              Notes &amp; Renewal Details
-            </h2>
-            <div className="p-4 rounded-2xl bg-indigo-50/40 border border-indigo-100 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
-              {document.notes}
-            </div>
-          </div>
-        )}
-
-        {/* Record Metadata */}
-        <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between text-[11px] text-slate-400 gap-2">
-          <span>Added: {formatDate(document.createdAt)}</span>
-          <span>Last modified: {formatDate(document.updatedAt)}</span>
         </div>
       </div>
 

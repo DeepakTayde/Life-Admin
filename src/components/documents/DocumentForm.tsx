@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { DocumentCategory, DocumentItem, CATEGORY_LABELS } from '@/types/document';
 import { formatDateForInput } from '@/lib/utils';
 import { AiExtractModal } from '@/components/documents/AiExtractModal';
-import { Sparkles, Save, ArrowLeft, Loader2, AlertCircle } from 'lucide-react';
+import { Sparkles, Save, ArrowLeft, Loader2, AlertCircle, FileCheck } from 'lucide-react';
 import Link from 'next/link';
 
 interface DocumentFormProps {
@@ -43,9 +43,9 @@ export function DocumentForm({ initialData, isEditing = false }: DocumentFormPro
     const errs: Record<string, string> = {};
 
     if (!title.trim() || title.trim().length < 2) {
-      errs.title = 'Title must be at least 2 characters';
+      errs.title = 'Document title must be at least 2 characters';
     } else if (title.length > 100) {
-      errs.title = 'Title cannot exceed 100 characters';
+      errs.title = 'Document title cannot exceed 100 characters';
     }
 
     if (notes && notes.length > 500) {
@@ -133,16 +133,20 @@ export function DocumentForm({ initialData, isEditing = false }: DocumentFormPro
 
   return (
     <>
-      <div className="bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-8 shadow-xs max-w-2xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-6 border-b border-slate-100 gap-4">
+      <div className="bg-white rounded-lg border border-[#dcdcdc] shadow-xs max-w-2xl mx-auto overflow-hidden">
+        {/* Government Form Header */}
+        <div className="bg-[#0b3b60] text-white p-4 sm:p-5 border-b-2 border-[#ff9933] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
-              {isEditing ? 'Edit Document' : 'Add New Document'}
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            <div className="flex items-center gap-2">
+              <FileCheck className="w-5 h-5 text-[#ff9933]" />
+              <h1 className="text-base sm:text-lg font-bold tracking-wide uppercase">
+                {isEditing ? 'Update Registered Document' : 'Register New Document in Vault'}
+              </h1>
+            </div>
+            <p className="text-[11px] text-slate-200 mt-0.5">
               {isEditing
-                ? 'Update document details and expiry dates'
-                : 'Enter your document details to track renewals and expiry'}
+                ? 'Update particulars, statutory expiry date, and policy details'
+                : 'Enter credential particulars for automated statutory renewal monitoring'}
             </p>
           </div>
 
@@ -150,181 +154,183 @@ export function DocumentForm({ initialData, isEditing = false }: DocumentFormPro
             <button
               type="button"
               onClick={() => setIsAiModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200/80 rounded-xl transition shadow-2xs self-start sm:self-auto"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-900 bg-[#ff9933] hover:bg-[#e67e22] rounded transition shadow-xs self-start sm:self-auto"
             >
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Auto-fill with AI</span>
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Auto-Fill with AI</span>
             </button>
           )}
         </div>
 
-        {generalError && (
-          <div className="mb-6 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-start gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-            <span>{generalError}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Title */}
-          <div>
-            <label htmlFor="doc-title" className="block text-xs font-semibold text-slate-700 mb-1">
-              Document Title <span className="text-rose-500">*</span>
-            </label>
-            <input
-              id="doc-title"
-              type="text"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                if (errors.title) setErrors((prev) => ({ ...prev, title: '' }));
-              }}
-              placeholder="e.g. Car Insurance, Passport, Driving Licence"
-              disabled={isSubmitting}
-              className={`w-full px-3.5 py-2.5 text-sm border rounded-xl outline-none transition ${
-                errors.title
-                  ? 'border-rose-400 focus:ring-2 focus:ring-rose-200'
-                  : 'border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
-              }`}
-            />
-            {errors.title && <p className="mt-1 text-xs text-rose-600">{errors.title}</p>}
-          </div>
-
-          {/* Category & Document Number */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="doc-category" className="block text-xs font-semibold text-slate-700 mb-1">
-                Category <span className="text-rose-500">*</span>
-              </label>
-              <select
-                id="doc-category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value as DocumentCategory)}
-                disabled={isSubmitting}
-                className="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white"
-              >
-                {CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {CATEGORY_LABELS[cat]}
-                  </option>
-                ))}
-              </select>
+        <div className="p-5 sm:p-7">
+          {generalError && (
+            <div className="mb-5 p-3 rounded bg-rose-50 border border-rose-300 text-rose-800 text-xs flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+              <span>{generalError}</span>
             </div>
+          )}
 
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Title */}
             <div>
-              <label htmlFor="doc-number" className="block text-xs font-semibold text-slate-700 mb-1">
-                Document Number / Policy No. <span className="text-slate-400 font-normal">(optional)</span>
+              <label htmlFor="doc-title" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                Document / Credential Title <span className="text-[#c62828]">*</span>
               </label>
               <input
-                id="doc-number"
+                id="doc-title"
                 type="text"
-                value={documentNumber}
-                onChange={(e) => setDocumentNumber(e.target.value)}
-                placeholder="e.g. POL-123456, Z1234567"
-                disabled={isSubmitting}
-                className="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            </div>
-          </div>
-
-          {/* Issue Date & Expiry Date */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label htmlFor="doc-issueDate" className="block text-xs font-semibold text-slate-700 mb-1">
-                Issue Date <span className="text-slate-400 font-normal">(optional)</span>
-              </label>
-              <input
-                id="doc-issueDate"
-                type="date"
-                value={issueDate}
+                value={title}
                 onChange={(e) => {
-                  setIssueDate(e.target.value);
-                  if (errors.issueDate) setErrors((prev) => ({ ...prev, issueDate: '' }));
+                  setTitle(e.target.value);
+                  if (errors.title) setErrors((prev) => ({ ...prev, title: '' }));
                 }}
+                placeholder="e.g. Passport, Car Insurance, Driving Licence, Vehicle RC"
                 disabled={isSubmitting}
-                className={`w-full px-3.5 py-2.5 text-sm border rounded-xl outline-none transition ${
-                  errors.issueDate
+                className={`w-full px-3 py-2 text-xs border rounded outline-none transition bg-[#fcfdfd] ${
+                  errors.title
                     ? 'border-rose-400 focus:ring-2 focus:ring-rose-200'
-                    : 'border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                    : 'border-slate-300 focus:ring-2 focus:ring-[#0b3b60] focus:border-[#0b3b60]'
                 }`}
               />
-              {errors.issueDate && <p className="mt-1 text-xs text-rose-600">{errors.issueDate}</p>}
+              {errors.title && <p className="mt-1 text-xs text-[#c62828] font-medium">{errors.title}</p>}
             </div>
 
+            {/* Category & Document Number */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="doc-category" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                  Service Category <span className="text-[#c62828]">*</span>
+                </label>
+                <select
+                  id="doc-category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value as DocumentCategory)}
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] bg-white text-slate-800"
+                >
+                  {CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {CATEGORY_LABELS[cat]}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="doc-number" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                  Document / Reference Number <span className="text-slate-400 font-normal lowercase">(optional)</span>
+                </label>
+                <input
+                  id="doc-number"
+                  type="text"
+                  value={documentNumber}
+                  onChange={(e) => setDocumentNumber(e.target.value)}
+                  placeholder="e.g. POL-123456, DL-0420110012345, Z1234567"
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] bg-[#fcfdfd]"
+                />
+              </div>
+            </div>
+
+            {/* Issue Date & Expiry Date */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="doc-issueDate" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                  Date of Issue <span className="text-slate-400 font-normal lowercase">(optional)</span>
+                </label>
+                <input
+                  id="doc-issueDate"
+                  type="date"
+                  value={issueDate}
+                  onChange={(e) => {
+                    setIssueDate(e.target.value);
+                    if (errors.issueDate) setErrors((prev) => ({ ...prev, issueDate: '' }));
+                  }}
+                  disabled={isSubmitting}
+                  className={`w-full px-3 py-2 text-xs border rounded outline-none transition bg-[#fcfdfd] ${
+                    errors.issueDate
+                      ? 'border-rose-400 focus:ring-2 focus:ring-rose-200'
+                      : 'border-slate-300 focus:ring-2 focus:ring-[#0b3b60]'
+                  }`}
+                />
+                {errors.issueDate && <p className="mt-1 text-xs text-[#c62828] font-medium">{errors.issueDate}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="doc-expiryDate" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                  Statutory Expiry Date <span className="text-slate-400 font-normal lowercase">(optional)</span>
+                </label>
+                <input
+                  id="doc-expiryDate"
+                  type="date"
+                  value={expiryDate}
+                  onChange={(e) => {
+                    setExpiryDate(e.target.value);
+                    if (errors.issueDate) setErrors((prev) => ({ ...prev, issueDate: '' }));
+                  }}
+                  disabled={isSubmitting}
+                  className="w-full px-3 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] bg-[#fcfdfd]"
+                />
+                <p className="mt-1 text-[10px] text-slate-500">
+                  Leave blank for permanent records (e.g. Birth Certificate, Degree)
+                </p>
+              </div>
+            </div>
+
+            {/* Notes */}
             <div>
-              <label htmlFor="doc-expiryDate" className="block text-xs font-semibold text-slate-700 mb-1">
-                Expiry / Renewal Date <span className="text-slate-400 font-normal">(optional)</span>
+              <label htmlFor="doc-notes" className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                Statutory Notes &amp; Renewal Instructions <span className="text-slate-400 font-normal lowercase">(optional)</span>
               </label>
-              <input
-                id="doc-expiryDate"
-                type="date"
-                value={expiryDate}
+              <textarea
+                id="doc-notes"
+                value={notes}
                 onChange={(e) => {
-                  setExpiryDate(e.target.value);
-                  if (errors.issueDate) setErrors((prev) => ({ ...prev, issueDate: '' }));
+                  setNotes(e.target.value);
+                  if (errors.notes) setErrors((prev) => ({ ...prev, notes: '' }));
                 }}
+                placeholder="e.g. Requires renewal 3 weeks in advance. Claim NCB bonus with insurance agent."
+                rows={3}
+                maxLength={500}
                 disabled={isSubmitting}
-                className="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] bg-[#fcfdfd]"
               />
-              <p className="mt-1 text-[11px] text-slate-400">
-                Leave empty if document does not expire
-              </p>
+              <div className="flex justify-between mt-1 text-[10px] text-slate-500">
+                <span>{errors.notes && <span className="text-[#c62828] font-medium">{errors.notes}</span>}</span>
+                <span>{notes.length}/500 characters</span>
+              </div>
             </div>
-          </div>
 
-          {/* Notes */}
-          <div>
-            <label htmlFor="doc-notes" className="block text-xs font-semibold text-slate-700 mb-1">
-              Notes & Renewal Instructions <span className="text-slate-400 font-normal">(optional)</span>
-            </label>
-            <textarea
-              id="doc-notes"
-              value={notes}
-              onChange={(e) => {
-                setNotes(e.target.value);
-                if (errors.notes) setErrors((prev) => ({ ...prev, notes: '' }));
-              }}
-              placeholder="e.g. Renew 1 month before expiry. Agent contact: John Doe"
-              rows={3}
-              maxLength={500}
-              disabled={isSubmitting}
-              className="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <div className="flex justify-between mt-1 text-[11px] text-slate-400">
-              <span>{errors.notes && <span className="text-rose-600">{errors.notes}</span>}</span>
-              <span>{notes.length}/500</span>
+            {/* Action buttons */}
+            <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+              <Link
+                href={isEditing ? `/documents/${initialData?.id}` : '/documents'}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded border border-slate-300 transition"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Return</span>
+              </Link>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="inline-flex items-center gap-2 px-5 py-2 text-xs font-bold text-white bg-[#0b3b60] hover:bg-[#154a75] rounded shadow-xs transition disabled:opacity-50"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Processing...</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-3.5 h-3.5 text-[#ff9933]" />
+                    <span>{isEditing ? 'Save Record Updates' : 'Commit to Citizen Vault'}</span>
+                  </>
+                )}
+              </button>
             </div>
-          </div>
-
-          {/* Action buttons */}
-          <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-            <Link
-              href={isEditing ? `/documents/${initialData?.id}` : '/documents'}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Cancel</span>
-            </Link>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-xs transition disabled:opacity-50"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Saving...</span>
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4" />
-                  <span>{isEditing ? 'Save Changes' : 'Save Document'}</span>
-                </>
-              )}
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
       <AiExtractModal

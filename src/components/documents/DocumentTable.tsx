@@ -13,61 +13,63 @@ interface DocumentTableProps {
 
 export function DocumentTable({ documents, onDeleteClick }: DocumentTableProps) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
+    <div className="bg-white rounded-lg border border-[#dcdcdc] shadow-xs overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse text-xs">
           <thead>
-            <tr className="border-b border-slate-200 bg-slate-50/75 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              <th scope="col" className="py-3.5 px-6">
-                Document
+            <tr className="bg-[#0b3b60] text-white border-b-2 border-[#ff9933] text-[11px] font-bold uppercase tracking-wider">
+              <th scope="col" className="py-3 px-4">
+                Document Particulars
               </th>
-              <th scope="col" className="py-3.5 px-4">
-                Category
+              <th scope="col" className="py-3 px-3">
+                Classification
               </th>
-              <th scope="col" className="py-3.5 px-4">
-                Document No.
+              <th scope="col" className="py-3 px-3">
+                Reference / ID
               </th>
-              <th scope="col" className="py-3.5 px-4">
-                Expiry Date
+              <th scope="col" className="py-3 px-3">
+                Statutory Expiry
               </th>
-              <th scope="col" className="py-3.5 px-4">
+              <th scope="col" className="py-3 px-3">
                 Status
               </th>
-              <th scope="col" className="py-3.5 px-6 text-right">
+              <th scope="col" className="py-3 px-4 text-right">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 text-sm">
-            {documents.map((doc) => (
+          <tbody className="divide-y divide-slate-200">
+            {documents.map((doc, idx) => (
               <tr
                 key={doc.id}
-                className="hover:bg-slate-50/80 transition-colors group"
+                className={`hover:bg-amber-50/40 transition-colors group ${
+                  idx % 2 === 0 ? 'bg-white' : 'bg-[#fafbfc]'
+                }`}
               >
-                <td className="py-4 px-6">
-                  <div className="font-semibold text-slate-900 group-hover:text-indigo-600 transition">
+                <td className="py-3 px-4">
+                  <div className="font-bold text-slate-900 group-hover:text-[#0b3b60] transition">
                     <Link href={`/documents/${doc.id}`}>{doc.title}</Link>
                   </div>
                   {doc.notes && (
-                    <p className="text-xs text-slate-400 truncate max-w-xs mt-0.5">
+                    <p className="text-[11px] text-slate-500 truncate max-w-xs mt-0.5">
                       {doc.notes}
                     </p>
                   )}
                 </td>
 
-                <td className="py-4 px-4 whitespace-nowrap">
+                <td className="py-3 px-3 whitespace-nowrap">
                   <CategoryBadge category={doc.category} />
                 </td>
 
-                <td className="py-4 px-4 whitespace-nowrap font-mono text-xs text-slate-600">
-                  {doc.documentNumber || <span className="text-slate-300">—</span>}
+                <td className="py-3 px-3 whitespace-nowrap font-mono text-xs text-slate-700">
+                  {doc.documentNumber || <span className="text-slate-400">—</span>}
                 </td>
 
-                <td className="py-4 px-4 whitespace-nowrap font-medium text-slate-700">
+                <td className="py-3 px-3 whitespace-nowrap font-medium text-slate-800 font-mono">
                   {formatDate(doc.expiryDate)}
                 </td>
 
-                <td className="py-4 px-4 whitespace-nowrap">
+                <td className="py-3 px-3 whitespace-nowrap">
                   <StatusBadge
                     status={doc.status || 'ACTIVE'}
                     daysUntilExpiry={doc.daysUntilExpiry}
@@ -75,28 +77,29 @@ export function DocumentTable({ documents, onDeleteClick }: DocumentTableProps) 
                   />
                 </td>
 
-                <td className="py-4 px-6 text-right whitespace-nowrap">
+                <td className="py-3 px-4 text-right whitespace-nowrap">
                   <div className="flex items-center justify-end gap-1.5">
                     <Link
                       href={`/documents/${doc.id}`}
-                      className="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
-                      title="View document details"
+                      className="p-1.5 text-slate-600 hover:text-[#0b3b60] hover:bg-slate-100 rounded transition"
+                      title="Inspect record"
                     >
                       <Eye className="w-4 h-4" />
                     </Link>
 
                     <Link
                       href={`/documents/${doc.id}/edit`}
-                      className="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
-                      title="Edit document"
+                      className="p-1.5 text-slate-600 hover:text-[#0b3b60] hover:bg-slate-100 rounded transition"
+                      title="Update record"
                     >
                       <Edit3 className="w-4 h-4" />
                     </Link>
 
                     <button
+                      type="button"
                       onClick={() => onDeleteClick(doc)}
-                      className="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
-                      title="Delete document"
+                      className="p-1.5 text-slate-500 hover:text-[#c62828] hover:bg-rose-50 rounded transition"
+                      title="Expunge record from vault"
                       aria-label={`Delete ${doc.title}`}
                     >
                       <Trash2 className="w-4 h-4" />

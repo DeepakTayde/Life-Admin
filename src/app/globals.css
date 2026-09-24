@@ -1,1 +1,84 @@
 @import "tailwindcss";
+
+:root {
+  --gov-navy: #0b3b60;
+  --gov-navy-light: #154a75;
+  --gov-navy-dark: #07263e;
+  --gov-saffron: #ff9933;
+  --gov-saffron-dark: #e67e22;
+  --gov-green: #2e7d32;
+  --gov-amber: #d97706;
+  --gov-red: #c62828;
+  --gov-bg: #f4f6f9;
+  --gov-border: #dcdcdc;
+}
+
+body {
+  background-color: #f4f6f9;
+  color: #1e293b;
+}
+
+/* Gov Portal UI helper utilities */
+.bg-gov-navy {
+  background-color: #0b3b60;
+}
+.bg-gov-navy-light {
+  background-color: #154a75;
+}
+.text-gov-navy {
+  color: #0b3b60;
+}
+.border-gov-navy {
+  border-color: #0b3b60;
+}
+
+.bg-gov-saffron {
+  background-color: #ff9933;
+}
+.text-gov-saffron {
+  color: #ff9933;
+}
+.border-gov-saffron {
+  border-color: #ff9933;
+}
+
+.bg-gov-green {
+  background-color: #2e7d32;
+}
+.text-gov-green {
+  color: #2e7d32;
+}
+
+.bg-gov-amber {
+  background-color: #d97706;
+}
+.text-gov-amber {
+  color: #d97706;
+}
+
+.bg-gov-red {
+  background-color: #c62828;
+}
+.text-gov-red {
+  color: #c62828;
+}
+
+.bg-gov-surface {
+  background-color: #f4f6f9;
+}
+.border-gov {
+  border-color: #dcdcdc;
+}
+
+/* Samagra Service Box Pattern Card */
+.samagra-card {
+  background-color: #ffffff;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.samagra-card-header {
+  background-color: #0b3b60;
+  color: #ffffff;
+  border-bottom: 2px solid #ff9933;
+}

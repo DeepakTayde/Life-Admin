@@ -5,11 +5,14 @@ import {
   ShieldCheck,
   Calendar,
   AlertTriangle,
-  Sparkles,
   ArrowRight,
   Lock,
   Search,
   CheckCircle2,
+  FileText,
+  Car,
+  Award,
+  Building,
 } from 'lucide-react';
 
 export default async function HomePage() {
@@ -20,143 +23,137 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="py-8 sm:py-16 space-y-16 sm:space-y-24">
-      {/* Hero section */}
-      <section className="text-center max-w-3xl mx-auto space-y-6">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200/80 text-indigo-700 text-xs font-semibold shadow-2xs">
-          <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-          <span>Real-World Life Admin Management</span>
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
-          Never miss an important{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">
-            document renewal
-          </span>{' '}
-          again.
-        </h1>
-
-        <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-          Passports, car insurance, driver licences, warranties, and certificates in one place.
-          Get instant visibility on what is active, expiring soon, or already expired.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-          <Link
-            href="/register"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-md shadow-indigo-200 transition"
-          >
-            <span>Get Started for Free</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            href="/login"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition shadow-2xs"
-          >
-            Sign in to Account
-          </Link>
-        </div>
-      </section>
-
-      {/* Product preview card */}
-      <section className="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden p-6 sm:p-8">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
-          <div className="flex items-center gap-2.5">
-            <div className="w-3 h-3 rounded-full bg-rose-400" />
-            <div className="w-3 h-3 rounded-full bg-amber-400" />
-            <div className="w-3 h-3 rounded-full bg-emerald-400" />
-            <span className="text-xs font-mono text-slate-400 ml-2">life-admin-dashboard</span>
+    <div className="py-6 sm:py-12 space-y-12 sm:space-y-16">
+      {/* Official Government Portal Hero section */}
+      <section className="bg-white rounded-lg border border-[#dcdcdc] p-6 sm:p-10 shadow-xs relative overflow-hidden">
+        <div className="max-w-3xl space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#0b3b60]/10 border border-[#0b3b60]/20 text-[#0b3b60] text-xs font-bold uppercase tracking-wider">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#ff9933]" />
+            <span>National Citizen Document Registry • GIGW 3.0</span>
           </div>
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700">
-            Interactive Overview
-          </span>
-        </div>
 
-        {/* Mock stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/60">
-            <p className="text-xs font-medium text-slate-500">Total Documents</p>
-            <p className="text-2xl font-bold text-slate-900 mt-1">12</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">Passport, Insurance, Licences</p>
-          </div>
-          <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/70">
-            <p className="text-xs font-medium text-amber-800">Expiring Soon</p>
-            <p className="text-2xl font-bold text-amber-700 mt-1">3</p>
-            <p className="text-[11px] text-amber-600 mt-0.5">Action needed in &le; 30 days</p>
-          </div>
-          <div className="p-4 rounded-xl bg-rose-50/70 border border-rose-200/70">
-            <p className="text-xs font-medium text-rose-800">Expired</p>
-            <p className="text-2xl font-bold text-rose-700 mt-1">1</p>
-            <p className="text-[11px] text-rose-600 mt-0.5">Vehicle pollution check</p>
-          </div>
-        </div>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0b3b60] tracking-tight leading-tight">
+            Centralized Citizen Document Vault &amp; Statutory Expiry Tracker
+          </h1>
 
-        {/* Mock renewals */}
-        <div className="space-y-2.5">
-          <p className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Upcoming Renewals
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl">
+            Secure digital storage for identity credentials (Passport, PAN, Voter ID), vehicle assets
+            (RC, Insurance, Driving Licence, PUC), and certifications. Automated 30-day statutory expiry
+            advisories ensure complete legal compliance.
           </p>
-          <div className="divide-y divide-slate-100 rounded-xl border border-slate-100 bg-white">
-            <div className="p-3 flex items-center justify-between text-xs">
-              <div>
-                <span className="font-semibold text-slate-900">Car Insurance</span>
-                <span className="text-slate-400 ml-2">#POL-89104</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="font-medium text-slate-600">20 Oct 2026</span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
-                  Expiring Soon
-                </span>
-              </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 pt-3">
+            <Link
+              href="/register"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 text-xs font-bold text-white bg-[#0b3b60] hover:bg-[#154a75] rounded transition shadow-sm"
+            >
+              <span>Register Citizen Account</span>
+              <ArrowRight className="w-4 h-4 text-[#ff9933]" />
+            </Link>
+            <Link
+              href="/login"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-2.5 text-xs font-bold text-[#0b3b60] bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded transition"
+            >
+              Sign In to Citizen Vault
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Samagra Service Box Pattern Showcase */}
+      <section className="space-y-4">
+        <div className="border-b border-[#dcdcdc] pb-2">
+          <h2 className="text-sm sm:text-base font-black text-[#0b3b60] uppercase tracking-wide">
+            Statutory Document Classification Standard
+          </h2>
+          <p className="text-xs text-slate-500">
+            Categorized citizen services following Ministry of Citizen Services &amp; Digital Governance
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Box 1 */}
+          <div className="samagra-card rounded-lg overflow-hidden">
+            <div className="samagra-card-header p-3 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-[#ff9933]" />
+              <h3 className="font-bold text-xs">Identity Documents</h3>
             </div>
-            <div className="p-3 flex items-center justify-between text-xs">
-              <div>
-                <span className="font-semibold text-slate-900">Passport</span>
-                <span className="text-slate-400 ml-2">#Z891230</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="font-medium text-slate-600">12 Oct 2026</span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
-                  Active
-                </span>
-              </div>
+            <div className="p-4 space-y-2 text-xs text-slate-600">
+              <p className="font-semibold text-slate-800">
+                Aadhaar, PAN Card, Voter ID, Passport
+              </p>
+              <p className="text-[11px] text-slate-500 leading-relaxed">
+                National identity numbers with issue date recording and international travel validity checks (6-month rule).
+              </p>
+            </div>
+          </div>
+
+          {/* Box 2 */}
+          <div className="samagra-card rounded-lg overflow-hidden">
+            <div className="samagra-card-header p-3 flex items-center gap-2">
+              <Car className="w-4 h-4 text-[#ff9933]" />
+              <h3 className="font-bold text-xs">Assets &amp; Vehicles</h3>
+            </div>
+            <div className="p-4 space-y-2 text-xs text-slate-600">
+              <p className="font-semibold text-slate-800">
+                Driving Licence, RC, Vehicle Insurance, PUC
+              </p>
+              <p className="text-[11px] text-slate-500 leading-relaxed">
+                Track mandatory Motor Vehicles Act statutory expirations, roadworthiness, and insurance grace periods.
+              </p>
+            </div>
+          </div>
+
+          {/* Box 3 */}
+          <div className="samagra-card rounded-lg overflow-hidden">
+            <div className="samagra-card-header p-3 flex items-center gap-2">
+              <Award className="w-4 h-4 text-[#ff9933]" />
+              <h3 className="font-bold text-xs">Education &amp; Certificates</h3>
+            </div>
+            <div className="p-4 space-y-2 text-xs text-slate-600">
+              <p className="font-semibold text-slate-800">
+                Degree Certificates, Birth Certificate, Domicile
+              </p>
+              <p className="text-[11px] text-slate-500 leading-relaxed">
+                Permanent academic records, birth records, warranties, and subscription validity registries.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Key features */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-6 space-y-3">
-          <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-            <Calendar className="w-5 h-5" />
+      {/* Official Features */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="bg-white rounded-lg border border-[#dcdcdc] p-5 space-y-2">
+          <div className="w-8 h-8 rounded bg-[#0b3b60]/10 text-[#0b3b60] flex items-center justify-center">
+            <Calendar className="w-4 h-4" />
           </div>
-          <h3 className="font-bold text-slate-900 text-base">Automatic Expiry Tracking</h3>
-          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+          <h3 className="font-bold text-slate-900 text-sm">Automated Expiry Warnings</h3>
+          <p className="text-xs text-slate-500 leading-relaxed">
             Centralized 30-day renewal warnings and clear color-coded statuses so you never miss a
             critical deadline.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-6 space-y-3">
-          <div className="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center">
-            <Sparkles className="w-5 h-5" />
+        <div className="bg-white rounded-lg border border-[#dcdcdc] p-5 space-y-2">
+          <div className="w-8 h-8 rounded bg-[#ff9933]/15 text-[#b45309] flex items-center justify-center">
+            <Building className="w-4 h-4" />
           </div>
-          <h3 className="font-bold text-slate-900 text-base">Add with AI</h3>
-          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-            Paste messy renewal emails or text notes. The AI extraction parser extracts title, dates,
-            and policy numbers instantly.
+          <h3 className="font-bold text-slate-900 text-sm">GIGW 3.0 Government Standard</h3>
+          <p className="text-xs text-slate-500 leading-relaxed">
+            Built following Guidelines for Indian Government Websites with screen reader accessibility,
+            font sizing, and contrast support.
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-6 space-y-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-            <Lock className="w-5 h-5" />
+        <div className="bg-white rounded-lg border border-[#dcdcdc] p-5 space-y-2">
+          <div className="w-8 h-8 rounded bg-[#2e7d32]/10 text-[#2e7d32] flex items-center justify-center">
+            <Lock className="w-4 h-4" />
           </div>
-          <h3 className="font-bold text-slate-900 text-base">Private & User Scoped</h3>
-          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-            Each user’s documents are isolated and strictly authorized. User A cannot view, modify,
-            or delete User B’s records.
+          <h3 className="font-bold text-slate-900 text-sm">Cryptographic User Isolation</h3>
+          <p className="text-xs text-slate-500 leading-relaxed">
+            Each citizen’s records are strictly isolated. No cross-account data leakage is possible under
+            verified server-side security checks.
           </p>
         </div>
       </section>

@@ -15,14 +15,14 @@ export function StatusBadge({ status, daysUntilExpiry, showDays = false }: Statu
   const renderIcon = () => {
     switch (status) {
       case 'ACTIVE':
-        return <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" aria-hidden="true" />;
+        return <CheckCircle2 className="w-3.5 h-3.5 text-white" aria-hidden="true" />;
       case 'EXPIRING_SOON':
-        return <AlertTriangle className="w-3.5 h-3.5 text-amber-600" aria-hidden="true" />;
+        return <AlertTriangle className="w-3.5 h-3.5 text-white" aria-hidden="true" />;
       case 'EXPIRED':
-        return <AlertOctagon className="w-3.5 h-3.5 text-rose-600" aria-hidden="true" />;
+        return <AlertOctagon className="w-3.5 h-3.5 text-white" aria-hidden="true" />;
       case 'NO_EXPIRY':
       default:
-        return <Clock className="w-3.5 h-3.5 text-slate-500" aria-hidden="true" />;
+        return <Clock className="w-3.5 h-3.5 text-white" aria-hidden="true" />;
     }
   };
 

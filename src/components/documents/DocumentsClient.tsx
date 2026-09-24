@@ -10,12 +10,14 @@ import { DeleteConfirmModal } from '@/components/documents/DeleteConfirmModal';
 import {
   Search,
   Filter,
-  PlusCircle,
+  Plus,
   Files,
   ArrowUpDown,
   X,
   LayoutGrid,
   List,
+  Shield,
+  FolderArchive,
 } from 'lucide-react';
 
 interface DocumentsClientProps {
@@ -143,42 +145,46 @@ export function DocumentsClient({ initialDocuments }: DocumentsClientProps) {
     searchTerm !== '' || selectedCategory !== 'ALL' || selectedStatus !== 'ALL';
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-5">
+      {/* Government Portal Header */}
+      <div className="bg-white rounded-lg border border-[#dcdcdc] p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Documents
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Manage your personal documents, insurance policies, and renewal dates
+          <div className="flex items-center gap-2">
+            <FolderArchive className="w-5 h-5 text-[#0b3b60]" />
+            <h1 className="text-xl sm:text-2xl font-black text-[#0b3b60] tracking-tight">
+              Citizen Document Vault
+            </h1>
+          </div>
+          <p className="text-xs text-slate-500 mt-1">
+            Search, filter, inspect, and manage statutory credentials, vehicles, and renewal records
           </p>
         </div>
 
         <Link
           href="/documents/new"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition shadow-xs self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded text-xs font-bold text-white bg-[#0b3b60] hover:bg-[#154a75] transition shadow-xs self-start sm:self-auto"
         >
-          <PlusCircle className="w-4 h-4" />
-          <span>Add Document</span>
+          <Plus className="w-4 h-4" />
+          <span>Register New Document</span>
         </Link>
       </div>
 
       {/* Toolbar / Search & Filters */}
-      <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-xs space-y-3">
+      <div className="bg-white rounded-lg border border-[#dcdcdc] p-4 shadow-xs space-y-3">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           {/* Search bar */}
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="Search by title or document number..."
-              className="w-full pl-9 pr-8 py-2 text-sm border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Search by title, policy no., or document reference..."
+              className="w-full pl-9 pr-8 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] focus:border-[#0b3b60] bg-[#fcfdfd]"
             />
             {searchTerm && (
               <button
+                type="button"
                 onClick={() => handleSearchChange('')}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
                 aria-label="Clear search"
@@ -194,7 +200,7 @@ export function DocumentsClient({ initialDocuments }: DocumentsClientProps) {
             <select
               value={selectedCategory}
               onChange={(e) => handleCategoryChange(e.target.value)}
-              className="px-3 py-2 text-sm border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-700"
+              className="px-2.5 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] bg-white text-slate-800"
               aria-label="Filter by category"
             >
               <option value="ALL">All Categories</option>
@@ -211,13 +217,13 @@ export function DocumentsClient({ initialDocuments }: DocumentsClientProps) {
             <select
               value={selectedStatus}
               onChange={(e) => handleStatusChange(e.target.value)}
-              className="px-3 py-2 text-sm border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-700"
+              className="px-2.5 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] bg-white text-slate-800"
               aria-label="Filter by status"
             >
               <option value="ALL">All Statuses</option>
-              <option value="ACTIVE">Active</option>
-              <option value="EXPIRING_SOON">Expiring Soon</option>
-              <option value="EXPIRED">Expired</option>
+              <option value="ACTIVE">Active / Verified</option>
+              <option value="EXPIRING_SOON">Expiring Soon (≤ 30d)</option>
+              <option value="EXPIRED">Expired / Overdue</option>
               <option value="NO_EXPIRY">No Expiry</option>
             </select>
           </div>
@@ -225,14 +231,15 @@ export function DocumentsClient({ initialDocuments }: DocumentsClientProps) {
 
         {/* Secondary row: sorting and view toggle */}
         <div className="flex flex-wrap items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500 gap-2">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-medium text-slate-600">Sort by:</span>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="font-bold text-slate-700 uppercase text-[10px]">Sort Record:</span>
             <button
+              type="button"
               onClick={() => handleSortChange('expiryDate')}
-              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border transition ${
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded border text-xs transition ${
                 sortBy === 'expiryDate'
-                  ? 'border-indigo-300 bg-indigo-50 text-indigo-700 font-semibold'
-                  : 'border-slate-200 hover:bg-slate-50 text-slate-600'
+                  ? 'border-[#0b3b60] bg-[#0b3b60] text-white font-bold'
+                  : 'border-slate-300 hover:bg-slate-50 text-slate-700'
               }`}
             >
               <span>Expiry Date</span>
@@ -240,23 +247,25 @@ export function DocumentsClient({ initialDocuments }: DocumentsClientProps) {
             </button>
 
             <button
+              type="button"
               onClick={() => handleSortChange('createdAt')}
-              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border transition ${
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded border text-xs transition ${
                 sortBy === 'createdAt'
-                  ? 'border-indigo-300 bg-indigo-50 text-indigo-700 font-semibold'
-                  : 'border-slate-200 hover:bg-slate-50 text-slate-600'
+                  ? 'border-[#0b3b60] bg-[#0b3b60] text-white font-bold'
+                  : 'border-slate-300 hover:bg-slate-50 text-slate-700'
               }`}
             >
-              <span>Recently Added</span>
+              <span>Recently Registered</span>
               <ArrowUpDown className="w-3 h-3" />
             </button>
 
             <button
+              type="button"
               onClick={() => handleSortChange('title')}
-              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border transition ${
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded border text-xs transition ${
                 sortBy === 'title'
-                  ? 'border-indigo-300 bg-indigo-50 text-indigo-700 font-semibold'
-                  : 'border-slate-200 hover:bg-slate-50 text-slate-600'
+                  ? 'border-[#0b3b60] bg-[#0b3b60] text-white font-bold'
+                  : 'border-slate-300 hover:bg-slate-50 text-slate-700'
               }`}
             >
               <span>Title (A-Z)</span>
@@ -265,28 +274,37 @@ export function DocumentsClient({ initialDocuments }: DocumentsClientProps) {
 
             {hasActiveFilters && (
               <button
+                type="button"
                 onClick={clearAllFilters}
-                className="text-indigo-600 hover:underline font-medium ml-2"
+                className="text-[#c62828] hover:underline font-bold text-xs ml-2"
               >
-                Reset filters
+                Clear all filters
               </button>
             )}
           </div>
 
           <div className="flex items-center gap-2">
-            <span>{documents.length} document{documents.length !== 1 ? 's' : ''} found</span>
-            <div className="hidden sm:flex items-center border border-slate-200 rounded-lg p-0.5 ml-2">
+            <span className="text-[11px] font-semibold text-slate-700">
+              {documents.length} record{documents.length !== 1 ? 's' : ''} in registry
+            </span>
+            <div className="hidden sm:flex items-center border border-slate-300 rounded p-0.5 ml-2">
               <button
+                type="button"
                 onClick={() => setViewMode('table')}
-                className={`p-1 rounded ${viewMode === 'table' ? 'bg-slate-100 text-indigo-600' : 'text-slate-400'}`}
-                title="Table view"
+                className={`p-1 rounded ${
+                  viewMode === 'table' ? 'bg-[#0b3b60] text-white' : 'text-slate-500'
+                }`}
+                title="Official Table View"
               >
                 <List className="w-3.5 h-3.5" />
               </button>
               <button
+                type="button"
                 onClick={() => setViewMode('cards')}
-                className={`p-1 rounded ${viewMode === 'cards' ? 'bg-slate-100 text-indigo-600' : 'text-slate-400'}`}
-                title="Card view"
+                className={`p-1 rounded ${
+                  viewMode === 'cards' ? 'bg-[#0b3b60] text-white' : 'text-slate-500'
+                }`}
+                title="Card Panel View"
               >
                 <LayoutGrid className="w-3.5 h-3.5" />
               </button>
@@ -297,32 +315,35 @@ export function DocumentsClient({ initialDocuments }: DocumentsClientProps) {
 
       {/* Document List */}
       {documents.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-slate-200/90 p-12 text-center shadow-xs">
-          <div className="w-14 h-14 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center mb-4">
-            <Files className="w-7 h-7" />
+        <div className="bg-white rounded-lg border border-[#dcdcdc] p-10 text-center shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center mb-3">
+            <Files className="w-6 h-6" />
           </div>
-          <h2 className="text-base font-bold text-slate-900">No documents found</h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-sm mx-auto">
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wide">
+            No Records Found in Registry
+          </h2>
+          <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
             {hasActiveFilters
-              ? 'No documents matched your current search or filter criteria. Try clearing filters.'
-              : 'You have not added any documents yet. Start tracking your passport, policies, and licences now.'}
+              ? 'No documents matched your search or category filter. Try resetting filters.'
+              : 'You have not registered any documents yet. Begin tracking your credentials and statutory renewal policies.'}
           </p>
 
-          <div className="mt-5 flex items-center justify-center gap-3">
+          <div className="mt-4 flex items-center justify-center gap-3">
             {hasActiveFilters ? (
               <button
+                type="button"
                 onClick={clearAllFilters}
-                className="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition"
+                className="px-3.5 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded border border-slate-300 transition"
               >
-                Clear Filters
+                Reset Filters
               </button>
             ) : (
               <Link
                 href="/documents/new"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-xs sm:text-sm font-semibold hover:bg-indigo-700 transition shadow-xs"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-[#0b3b60] text-white text-xs font-bold hover:bg-[#154a75] transition shadow-xs"
               >
-                <PlusCircle className="w-4 h-4" />
-                <span>Add Your First Document</span>
+                <Plus className="w-4 h-4" />
+                <span>Upload First Document</span>
               </Link>
             )}
           </div>
