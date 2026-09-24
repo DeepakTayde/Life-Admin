@@ -16,7 +16,7 @@ vi.mock('@/lib/prisma', () => ({
 }));
 
 describe('Security & Multi-tenant Ownership Isolation', () => {
-  const userA_Id = 'user_anu_123';
+  const userA_Id = 'user_deepakTayde_123';
   const userB_Id = 'user_deepak_456';
   const docId = 'doc_car_insurance_789';
 

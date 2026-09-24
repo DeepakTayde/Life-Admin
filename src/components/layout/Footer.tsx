@@ -73,7 +73,7 @@ export function Footer() {
             <span className="text-slate-600 hidden sm:inline">•</span>
             <span className="flex items-center gap-1 text-slate-300">
               Built with <Heart className="w-3 h-3 text-[#c62828] fill-[#c62828]" /> by{' '}
-              <strong className="text-white font-semibold">Anu</strong>
+              <strong className="text-white font-semibold">Deepak Tayde</strong>
             </span>
           </div>
 

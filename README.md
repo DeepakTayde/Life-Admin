@@ -205,7 +205,7 @@ npm run test
 
 ## 👨‍💻 Author & Credits
 
-Built by **Anu**
+Built by **Deepak Tayde**
 
 - [GitHub Profile](https://github.com)
 - [LinkedIn Profile](https://linkedin.com)

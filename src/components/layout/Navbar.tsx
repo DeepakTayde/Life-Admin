@@ -85,11 +85,10 @@ export function Navbar({ user }: NavbarProps) {
                   <Link
                     key={link.label}
                     href={link.href}
-                    className={`flex items-center gap-2 px-3.5 py-3 transition relative ${
-                      active
+                    className={`flex items-center gap-2 px-3.5 py-3 transition relative ${active
                         ? 'bg-[#154a75] text-[#ff9933] font-bold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#ff9933]'
                         : 'text-slate-100 hover:bg-[#154a75] hover:text-white'
-                    }`}
+                      }`}
                   >
                     <Icon className="w-4 h-4" />
                     <span>{link.label}</span>
@@ -258,7 +257,7 @@ export function Navbar({ user }: NavbarProps) {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Registered Email:</span>
-                  <span className="font-mono text-slate-800">{user?.email || 'anu@example.com'}</span>
+                  <span className="font-mono text-slate-800">{user?.email || 'deepakTayde@example.com'}</span>
                 </div>
               </div>
 

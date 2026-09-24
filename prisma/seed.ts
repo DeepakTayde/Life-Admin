@@ -6,16 +6,16 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Seeding initial demo data...');
 
-  // Create demo user: Anu
-  const email = 'anu@example.com';
+  // Create demo user: deepakTayde
+  const email = 'deepakTayde@example.com';
   const passwordHash = await bcrypt.hash('password123', 10);
 
   const user = await prisma.user.upsert({
     where: { email },
-    update: { passwordHash, name: 'Anu Sharma' },
+    update: { passwordHash, name: 'deepak tayde' },
     create: {
       email,
-      name: 'Anu Sharma',
+      name: 'deepak tayde',
       passwordHash,
     },
   });

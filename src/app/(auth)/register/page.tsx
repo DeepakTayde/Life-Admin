@@ -87,7 +87,7 @@ export default function RegisterPage() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Anu Sharma"
+                  placeholder="deepak tayde"
                   disabled={isLoading}
                   className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] bg-[#fcfdfd]"
                 />
@@ -105,7 +105,7 @@ export default function RegisterPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="anu@example.com"
+                  placeholder="deepakTayde@example.com"
                   required
                   disabled={isLoading}
                   className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] bg-[#fcfdfd]"

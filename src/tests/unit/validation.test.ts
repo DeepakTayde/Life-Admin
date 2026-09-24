@@ -81,8 +81,8 @@ describe('Document Schema Validation', () => {
 describe('Auth Validation Schemas', () => {
   it('validates correct registration data', () => {
     const valid = {
-      name: 'Anu Sharma',
-      email: 'anu@example.com',
+      name: 'deepak tayde',
+      email: 'deepakTayde@example.com',
       password: 'password123',
     };
 
@@ -92,7 +92,7 @@ describe('Auth Validation Schemas', () => {
 
   it('rejects passwords shorter than 6 characters', () => {
     const shortPass = {
-      email: 'anu@example.com',
+      email: 'deepakTayde@example.com',
       password: '123',
     };
 
