@@ -1,0 +1,244 @@
+# Life Admin — Product Requirements Document
+
+## 1. Product Overview
+
+Life Admin is a web application for managing important personal documents and their renewal/expiry dates in one place.
+
+The product is designed around a real-world problem: people often keep passports, insurance policies, vehicle documents, licences, certificates, warranties, and subscriptions in different places and can miss renewal dates.
+
+The application must provide a useful dashboard, document CRUD, search/filtering, expiry status tracking, validation, secure user ownership, responsive UI, testing, Git/GitHub workflow, and a live deployment.
+
+## 2. Assignment Alignment
+
+The implementation must satisfy the assignment requirements:
+
+- Build a meaningful real-world application rather than a basic to-do/CRUD demo.
+- Use Next.js 16 and React.
+- Use Tailwind CSS for UI styling.
+- Use PostgreSQL or MongoDB as the database. This project standardizes on PostgreSQL.
+- Use Git/GitHub for source control and submission.
+- Provide a live deployed application.
+- Demonstrate robust validation and security.
+- Consider performance and optimization.
+- Include meaningful testing.
+- AI is optional and must remain an additive feature, not a replacement for core functionality.
+- Keep the code maintainable and componentized.
+- Provide a polished, responsive UI/UX.
+- Include the required project/author links in the final application footer.
+
+## 3. Target User
+
+Primary user:
+- An individual who needs to track important personal documents and expiry dates.
+
+Example documents:
+- Passport
+- Driving Licence
+- Vehicle Registration
+- Car Insurance
+- Health Insurance
+- Certification
+- Warranty
+- Subscription
+- Other documents with or without expiry dates
+
+## 4. Core User Journey
+
+1. User registers.
+2. User logs in.
+3. User reaches Dashboard.
+4. Dashboard shows document summary and upcoming renewals.
+5. User adds a document.
+6. User can view, edit, search, filter, sort, and delete documents.
+7. System calculates expiry status.
+8. User can quickly identify expired and expiring-soon documents.
+9. User can review document details.
+10. User can log out securely.
+
+## 5. Functional Requirements
+
+### Authentication
+- Registration.
+- Login.
+- Logout.
+- Authenticated routes.
+- Session-based user identity.
+- Every document must belong to one user.
+
+### Dashboard
+Display:
+- Total document count.
+- Expiring-soon count.
+- Expired count.
+- Upcoming renewal list.
+- Quick action to add a document.
+- Link to the full Documents page.
+
+### Document CRUD
+Create:
+- Title.
+- Category.
+- Document number, optional.
+- Issue date, optional.
+- Expiry date, optional.
+- Notes, optional.
+
+Read:
+- List all documents owned by the authenticated user.
+- View an individual document.
+
+Update:
+- Edit document fields.
+- Validate all changed fields.
+
+Delete:
+- Require confirmation.
+- Delete only documents owned by the authenticated user.
+
+### Search
+Search by:
+- Document title.
+- Document number where available.
+
+### Filters
+Category:
+- Identity
+- Insurance
+- Vehicle
+- Certification
+- Warranty
+- Subscription
+- Other
+
+Status:
+- Active
+- Expiring Soon
+- Expired
+- No Expiry
+
+### Sorting
+At minimum:
+- Expiry date ascending.
+- Expiry date descending.
+- Recently updated.
+
+## 6. Expiry Rules
+
+Default status rules:
+
+- EXPIRED: expiry date is before today.
+- EXPIRING_SOON: expiry date is today or within the next 30 days.
+- ACTIVE: expiry date is more than 30 days away.
+- NO_EXPIRY: expiry date is not supplied.
+
+The status calculation must live in a reusable utility/service and must not be duplicated across components.
+
+## 7. Validation Requirements
+
+Backend validation is mandatory.
+
+Use Zod for:
+- Required title.
+- Valid category.
+- Maximum title length.
+- Maximum notes length.
+- Valid date values.
+- Issue date must not be after expiry date when both exist.
+- Valid update payloads.
+
+Frontend validation may provide immediate feedback, but backend validation remains authoritative.
+
+## 8. Security Requirements
+
+- Never trust a client-supplied userId.
+- Resolve user identity from the authenticated session.
+- Every document query must be scoped by authenticated userId.
+- Prevent horizontal privilege escalation.
+- Return 401 for unauthenticated requests.
+- Return 404 when a document is not accessible to the current user.
+- Do not expose database errors to end users.
+- Do not expose secrets in client-side code.
+- Use environment variables for database/auth/API secrets.
+- Sanitize and validate all external input.
+
+## 9. Non-Functional Requirements
+
+### UI/UX
+- Mobile-first.
+- Responsive desktop/tablet/mobile layouts.
+- Clear visual hierarchy.
+- Accessible form controls.
+- Status should use both text and visual styling; color alone must not convey meaning.
+- Loading, empty, error, and success states must be handled.
+
+### Performance
+- Prefer Next.js Server Components for data-heavy non-interactive UI.
+- Use Client Components only where interaction requires them.
+- Avoid unnecessary client-side JavaScript.
+- Paginate or limit large lists when appropriate.
+- Add database indexes for userId and expiryDate.
+- Avoid N+1 database queries.
+- Use efficient queries for dashboard metrics.
+
+### Maintainability
+- Reusable components.
+- Typed API contracts.
+- Centralized validation.
+- Centralized expiry logic.
+- Consistent API response shape.
+- Clear folder structure.
+
+## 10. Optional AI Feature
+
+An optional AI-assisted "Add with AI" feature may accept user-provided text and extract:
+- title
+- category
+- document number
+- issue date
+- expiry date
+
+The AI output must always be treated as untrusted input and passed through the same Zod validation before saving.
+
+AI must not be required for the core application to work.
+
+## 11. Main Routes
+
+Pages:
+- `/login`
+- `/register`
+- `/dashboard`
+- `/documents`
+- `/documents/new`
+- `/documents/[id]`
+- `/documents/[id]/edit`
+
+API:
+- `POST /api/documents`
+- `GET /api/documents`
+- `GET /api/documents/[id]`
+- `PATCH /api/documents/[id]`
+- `DELETE /api/documents/[id]`
+
+Recommended:
+- `GET /api/dashboard`
+
+## 12. Acceptance Criteria
+
+The project is complete when:
+
+- A user can authenticate.
+- A user can create a document.
+- A user can see only their own documents.
+- A user can edit a document.
+- A user can delete a document after confirmation.
+- Search works.
+- Category/status filters work.
+- Expiry status is calculated correctly.
+- Dashboard counts are correct.
+- Invalid data is rejected.
+- Unauthorized access is blocked.
+- Responsive UI works on mobile and desktop.
+- Meaningful tests pass.
+- Application is deployed.
+- GitHub repository is available.
+- Footer contains required author/project links.

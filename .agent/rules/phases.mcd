@@ -1,0 +1,195 @@
+# Life Admin — Implementation Phases
+
+## Phase 0 — Project Setup
+
+Goal:
+Create a stable Next.js 16 foundation.
+
+Tasks:
+- Create Next.js TypeScript project.
+- Install Tailwind CSS.
+- Configure linting/formatting as appropriate.
+- Initialize Git.
+- Create GitHub repository.
+- Create environment variable template.
+- Add initial folder structure.
+
+Exit criteria:
+- App runs locally.
+- Git repository works.
+- Basic page renders.
+
+## Phase 1 — Database and Prisma
+
+Tasks:
+- Set up PostgreSQL.
+- Configure `DATABASE_URL`.
+- Initialize Prisma.
+- Create User and Document models.
+- Add Category enum.
+- Add indexes.
+- Run initial migration.
+- Verify Prisma client.
+
+Exit criteria:
+- Database connection works.
+- Migration succeeds.
+- Prisma queries work.
+
+## Phase 2 — Authentication
+
+Tasks:
+- Registration.
+- Login.
+- Logout.
+- Session handling.
+- Protected dashboard/documents routes.
+- Server-side current-user resolution.
+
+Exit criteria:
+- Unauthenticated users cannot access private document data.
+- Authenticated user identity is available server-side.
+
+## Phase 3 — Document CRUD API
+
+Tasks:
+- Zod create schema.
+- Zod update schema.
+- POST document.
+- GET documents.
+- GET document by id.
+- PATCH document.
+- DELETE document.
+- Ownership checks.
+- Error responses.
+
+Exit criteria:
+- All CRUD operations work.
+- Invalid input is rejected.
+- Cross-user access is blocked.
+
+## Phase 4 — Documents UI
+
+Tasks:
+- Documents page.
+- Add document form.
+- Edit form.
+- Detail/view screen.
+- Document cards.
+- Desktop table.
+- Search.
+- Category filter.
+- Status filter.
+- Sorting.
+- Delete confirmation.
+
+Exit criteria:
+- Full document management works from UI.
+
+## Phase 5 — Dashboard
+
+Tasks:
+- Dashboard header.
+- Summary cards.
+- Total count.
+- Expiring-soon count.
+- Expired count.
+- Upcoming renewals.
+- Quick actions.
+- Dashboard API/service if required.
+
+Exit criteria:
+- Dashboard accurately reflects database state.
+
+## Phase 6 — UX and Responsive Polish
+
+Tasks:
+- Mobile layout.
+- Tablet layout.
+- Desktop layout.
+- Loading skeletons.
+- Empty states.
+- Error states.
+- Form validation messages.
+- Accessible focus states.
+- Confirmation dialogs.
+- Consistent Tailwind design.
+
+Exit criteria:
+- Main flows are usable on mobile and desktop.
+
+## Phase 7 — Testing and Security
+
+Tasks:
+- Unit tests for expiry calculation.
+- Validation tests.
+- CRUD integration tests.
+- Ownership tests.
+- Search/filter tests.
+- E2E happy path.
+- E2E delete flow.
+- Unauthorized access tests.
+
+Exit criteria:
+- Critical tests pass.
+- Security boundaries are verified.
+
+## Phase 8 — Performance
+
+Tasks:
+- Review Server vs Client Components.
+- Remove unnecessary client components.
+- Optimize database queries.
+- Verify indexes.
+- Avoid N+1 queries.
+- Limit dashboard lists.
+- Review bundle and loading behavior.
+
+Exit criteria:
+- No obvious performance bottlenecks in core flows.
+
+## Phase 9 — Optional AI
+
+Only after the core application is stable.
+
+Tasks:
+- Add AI extraction endpoint/service.
+- Define strict extraction schema.
+- Validate AI output using Zod.
+- Show extracted values for user confirmation.
+- Save only validated data.
+
+Exit criteria:
+- AI failure does not break normal document creation.
+- AI cannot bypass validation/security.
+
+## Phase 10 — Deployment
+
+Tasks:
+- Configure production PostgreSQL.
+- Configure production environment variables.
+- Run migrations.
+- Deploy Next.js application.
+- Verify authentication.
+- Verify CRUD.
+- Verify production database.
+- Verify responsive UI.
+- Verify GitHub repository.
+- Add required footer links.
+
+Exit criteria:
+- Live application is functional.
+- Production smoke tests pass.
+
+## Suggested Development Order
+
+Database
+-> Authentication
+-> API
+-> Documents UI
+-> Dashboard
+-> UX
+-> Testing
+-> Performance
+-> Optional AI
+-> Deployment

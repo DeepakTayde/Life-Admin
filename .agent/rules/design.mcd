@@ -1,0 +1,233 @@
+# Life Admin — UI/UX Design Specification
+
+## 1. Design Direction
+
+Create a clean, modern productivity application.
+
+Design goals:
+- Simple.
+- Professional.
+- Calm.
+- Information-dense without feeling crowded.
+- Mobile-first.
+- Accessible.
+- Fast to scan.
+
+Avoid:
+- Excessive gradients.
+- Decorative animations.
+- Overloaded dashboards.
+- Large blocks of unnecessary text.
+- Color-only status indicators.
+
+## 2. Application Shell
+
+Desktop:
+- Left sidebar.
+- Main content area.
+- User/profile menu.
+
+Mobile:
+- Compact top header.
+- Collapsible navigation.
+- Full-width content.
+
+Primary navigation:
+- Dashboard
+- Documents
+- Settings (if implemented)
+
+## 3. Dashboard Layout
+
+Header:
+- Page title.
+- Short supporting description.
+- Add Document button.
+
+Stats:
+- Total Documents.
+- Expiring Soon.
+- Expired.
+
+Renewals:
+- Upcoming renewal list.
+- Expiry date.
+- Status.
+- Link to all documents.
+
+Quick actions:
+- Add Document.
+- View Documents.
+
+## 4. Dashboard Wireframe
+
+Dashboard
+
+[ Dashboard title ]                         [ + Add Document ]
+
+[ Total Documents ] [ Expiring Soon ] [ Expired ]
+
+[ Quick Actions ]
+
+Upcoming Renewals                                  [ View all ]
+
+[ Document ] [ Category ] [ Expiry ] [ Status ]
+
+## 5. Documents Page
+
+Header:
+- Documents title.
+- Description.
+- Add Document button.
+
+Toolbar:
+- Search.
+- Category filter.
+- Status filter.
+- Sort control.
+
+List:
+Desktop:
+- Table.
+
+Mobile:
+- Cards.
+
+## 6. Document Table Columns
+
+- Document.
+- Category.
+- Document Number where available.
+- Expiry Date.
+- Status.
+- Actions.
+
+## 7. Document Card
+
+Each card should show:
+- Title.
+- Category.
+- Document number if available.
+- Expiry date.
+- Status badge.
+- View/Edit/Delete actions.
+
+## 8. Status Design
+
+ACTIVE:
+- Text: `Active`
+
+EXPIRING_SOON:
+- Text: `Expiring Soon`
+
+EXPIRED:
+- Text: `Expired`
+
+NO_EXPIRY:
+- Text: `No Expiry`
+
+Status must include text plus visual distinction.
+
+## 9. Color Semantics
+
+Use restrained semantic colors:
+- Neutral for normal UI.
+- Green family for Active.
+- Amber/yellow family for Expiring Soon.
+- Red family for Expired.
+- Gray family for No Expiry.
+
+Do not hard-code meaning into color alone.
+
+## 10. Typography
+
+Suggested hierarchy:
+- Page title: large, bold.
+- Section heading: medium/semibold.
+- Card value: large/bold.
+- Body: readable 14–16px.
+- Supporting text: smaller/muted.
+
+## 11. Responsive Breakpoints
+
+Mobile first.
+
+Use:
+- Base styles for mobile.
+- `sm:` for small/tablet layouts.
+- `md:` for medium layouts.
+- `lg:` for desktop layouts.
+
+Example:
+- Stats: 1 column mobile, 2 tablet, 3 desktop.
+- Documents: cards mobile, table desktop.
+
+## 12. Forms
+
+Document form fields:
+- Title.
+- Category.
+- Document Number.
+- Issue Date.
+- Expiry Date.
+- Notes.
+
+Use:
+- Visible labels.
+- Helpful placeholders.
+- Inline validation.
+- Required indicators.
+- Save/cancel actions.
+- Disabled loading state.
+
+## 13. Empty State
+
+No documents:
+
+No documents yet
+
+Add your first document to start tracking important expiry dates.
+
+[ + Add Document ]
+
+## 14. Error State
+
+Unable to load documents.
+
+Something went wrong. Please try again.
+
+[ Try Again ]
+
+## 15. Delete Confirmation
+
+Title:
+`Delete Document?`
+
+Message:
+`Are you sure you want to delete "Document Name"? This action cannot be undone.`
+
+Actions:
+- Cancel
+- Delete
+
+## 16. Accessibility
+
+- Semantic HTML.
+- Keyboard accessible controls.
+- Visible focus states.
+- Proper labels.
+- Sufficient contrast.
+- Do not rely solely on color.
+- Buttons must describe their action.
+- Dialogs must trap/focus correctly where a dialog component is used.
+
+## 17. Tailwind Component Style
+
+Common patterns:
+- Cards: `rounded-xl border bg-white shadow-sm`
+- Buttons: consistent padding, radius, font weight.
+- Inputs: border, focus ring, readable height.
+- Badges: compact pill with text.
+- Layout: `space-y-*`, `gap-*`, responsive grid utilities.
+
+The exact visual style may evolve, but consistency is required.

@@ -1,0 +1,140 @@
+# Life Admin — Project Memory / AI Context
+
+## Purpose
+
+This file is the persistent project context for AI coding assistants. Read it before making architectural or implementation decisions.
+
+## Product
+
+Life Admin is a personal document and renewal tracker.
+
+The user should be able to manage important documents and quickly understand what needs attention.
+
+## Assignment Constraints
+
+Mandatory direction:
+- Next.js 16.
+- React.
+- Tailwind CSS.
+- PostgreSQL or MongoDB; project uses PostgreSQL.
+- Git/GitHub.
+- Live deployment.
+- Validation/security.
+- Testing.
+- Performance considerations.
+- Meaningful real-world functionality.
+
+AI is optional.
+
+## Core Entities
+
+User:
+- id
+- name
+- email
+- passwordHash
+- createdAt
+
+Document:
+- id
+- userId
+- title
+- category
+- documentNumber
+- issueDate
+- expiryDate
+- notes
+- createdAt
+- updatedAt
+
+## Document Categories
+
+- IDENTITY
+- INSURANCE
+- VEHICLE
+- CERTIFICATION
+- WARRANTY
+- SUBSCRIPTION
+- OTHER
+
+## Document Status
+
+- ACTIVE
+- EXPIRING_SOON
+- EXPIRED
+- NO_EXPIRY
+
+Default threshold:
+- Expiring Soon = within 30 days.
+
+## Core APIs
+
+POST `/api/documents`
+GET `/api/documents`
+GET `/api/documents/[id]`
+PATCH `/api/documents/[id]`
+DELETE `/api/documents/[id]`
+
+Recommended:
+GET `/api/dashboard`
+
+## Core Pages
+
+- `/login`
+- `/register`
+- `/dashboard`
+- `/documents`
+- `/documents/new`
+- `/documents/[id]`
+- `/documents/[id]/edit`
+
+## UI Principles
+
+- Mobile-first.
+- Dashboard is the primary overview.
+- Documents page is the management workspace.
+- Desktop uses tables where useful.
+- Mobile uses cards.
+- Search and filters are first-class controls.
+- Status text is always visible.
+- Loading/empty/error states are required.
+
+## Security Principle
+
+The authenticated session determines the current user.
+
+Never trust:
+- client-provided userId.
+- client-provided ownership.
+- unvalidated request bodies.
+
+Every document query must be scoped to the authenticated user.
+
+## Validation Principle
+
+Zod is the server-side boundary validator.
+
+The frontend can validate for UX, but backend validation remains authoritative.
+
+## Architecture Principle
+
+Prefer:
+UI -> API/Server -> Service -> Prisma -> PostgreSQL
+
+Avoid putting business logic directly into UI components.
+
+## Optional AI
+
+AI may extract structured document fields from user-provided text.
+
+AI output:
+1. Parse.
+2. Validate with Zod.
+3. Show user for review.
+4. Save only after validation/confirmation.
+
+AI must never bypass security or validation.
+
+## Definition of Done
+
+A feature must be functional, responsive, validated, secure, appropriately tested, and consistent with the PRD and rules.

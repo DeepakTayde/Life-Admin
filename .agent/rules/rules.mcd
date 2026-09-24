@@ -1,0 +1,140 @@
+# Life Admin — Engineering Rules
+
+## 1. General Rules
+
+1. Follow the PRD as the source of truth.
+2. Keep the implementation focused on the assignment scope.
+3. Prefer simple solutions over unnecessary abstractions.
+4. Do not add dependencies without a clear reason.
+5. Use TypeScript throughout application code.
+6. Keep functions small and purpose-specific.
+7. Reuse shared components and utilities.
+
+## 2. Next.js Rules
+
+- Use App Router.
+- Prefer Server Components.
+- Use Client Components only for browser interaction/state.
+- Keep route handlers thin.
+- Put business/database orchestration in services.
+- Do not perform large database queries directly inside presentation components.
+
+## 3. React Rules
+
+- Components should have one clear responsibility.
+- Use typed props.
+- Avoid duplicated markup.
+- Avoid unnecessary global state.
+- Do not use array indexes as React keys when a stable id exists.
+- Handle loading, empty, error, and success states.
+
+## 4. Tailwind Rules
+
+- Use Tailwind utilities for styling.
+- Design mobile-first.
+- Prefer reusable UI components for repeated patterns.
+- Maintain consistent spacing, radius, typography, and focus states.
+- Do not rely on color alone for status.
+- Avoid excessive one-off arbitrary values.
+
+## 5. API Rules
+
+- Validate every external payload.
+- Validate query parameters where they affect database queries.
+- Return appropriate HTTP status codes.
+- Never trust client-provided userId.
+- Always enforce ownership at the database query level.
+- Do not expose internal errors.
+
+## 6. Prisma Rules
+
+- Reuse a singleton Prisma client in development.
+- Use migrations for schema changes.
+- Add indexes based on real query patterns.
+- Select only required fields when returning sensitive/large records.
+- Avoid N+1 queries.
+- Prefer transactions when multiple related writes must succeed together.
+
+## 7. Zod Rules
+
+- Create schemas for create and update operations.
+- Reuse shared enums/types where practical.
+- Use `safeParse` at API boundaries.
+- Validate date relationships.
+- Do not assume frontend validation is sufficient.
+
+## 8. Security Rules
+
+- Authentication is required for private document endpoints.
+- Authorization is required for every document access.
+- A document must only be accessible by its owner.
+- Secrets belong in environment variables.
+- Never expose secret keys to the client.
+- Do not log passwords, tokens, or sensitive document contents.
+- Sanitize error responses.
+
+## 9. UI Rules
+
+Every important screen must support:
+- Loading state.
+- Empty state.
+- Error state.
+- Success feedback where appropriate.
+
+Delete must require confirmation.
+
+Forms must:
+- Show labels.
+- Show validation errors.
+- Disable submission while saving.
+- Prevent accidental duplicate submissions.
+
+## 10. Date Rules
+
+Use one centralized expiry-status function.
+
+Do not duplicate expiry calculations across Dashboard, cards, tables, and API code.
+
+Be explicit about timezone handling when implementing reminders.
+
+## 11. Testing Rules
+
+At minimum test:
+- Document validation.
+- Expiry status calculation.
+- Create.
+- Read.
+- Update.
+- Delete.
+- Ownership protection.
+- Search/filter behavior.
+
+Critical security tests must verify that User A cannot access User B's documents.
+
+## 12. Git Rules
+
+Use meaningful commits, for example:
+
+- `feat: add document CRUD API`
+- `feat: add dashboard summary`
+- `feat: add document filters`
+- `test: add document ownership tests`
+- `fix: handle expired document status`
+
+Do not commit:
+- `.env`
+- API keys
+- passwords
+- generated secrets
+- unnecessary build output
+
+## 13. Definition of Done
+
+A feature is not done until:
+- It works.
+- It is validated.
+- It handles errors.
+- It is responsive.
+- It is tested when applicable.
+- It respects ownership/security.
+- It does not introduce avoidable duplication.

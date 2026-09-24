@@ -1,0 +1,211 @@
+# Life Admin — Database Specification
+
+## 1. Database
+
+Database:
+- PostgreSQL
+
+ORM:
+- Prisma
+
+## 2. Schema
+
+```prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String     @id @default(cuid())
+  name         String?
+  email        String     @unique
+  passwordHash String
+  createdAt    DateTime   @default(now())
+
+  documents    Document[]
+}
+
+model Document {
+  id             String   @id @default(cuid())
+  userId         String
+
+  title          String
+  category       Category
+  documentNumber String?
+  issueDate      DateTime?
+  expiryDate     DateTime?
+  notes          String?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(
+    fields: [userId],
+    references: [id],
+    onDelete: Cascade
+  )
+
+  @@index([userId])
+  @@index([expiryDate])
+  @@index([category])
+}
+
+enum Category {
+  IDENTITY
+  INSURANCE
+  VEHICLE
+  CERTIFICATION
+  WARRANTY
+  SUBSCRIPTION
+  OTHER
+}
+```
+
+## 3. Relationships
+
+User 1 -> many Documents.
+
+A Document belongs to exactly one User.
+
+When a User is deleted:
+- Their documents may be deleted through cascade according to the schema.
+
+## 4. Indexes
+
+`userId`
+- Required because almost every document query is user-scoped.
+
+`expiryDate`
+- Required for upcoming renewals and expiry ordering.
+
+`category`
+- Useful for category filtering.
+
+## 5. Query Patterns
+
+### User documents
+
+```ts
+prisma.document.findMany({
+  where: {
+    userId,
+  },
+  orderBy: {
+    expiryDate: "asc",
+  },
+});
+```
+
+### One user's document
+
+```ts
+prisma.document.findFirst({
+  where: {
+    id,
+    userId,
+  },
+});
+```
+
+### Create
+
+```ts
+prisma.document.create({
+  data: {
+    userId,
+    title,
+    category,
+    documentNumber,
+    issueDate,
+    expiryDate,
+    notes,
+  },
+});
+```
+
+### Update
+
+Ownership must be checked before update or included in a safe update strategy.
+
+### Delete
+
+Only delete a record after verifying ownership.
+
+## 6. Dashboard Queries
+
+Dashboard needs:
+- total document count.
+- expiring-soon count.
+- expired count.
+- limited upcoming renewals.
+
+Prefer database aggregation/count operations rather than loading every document into memory.
+
+## 7. Date Semantics
+
+Store dates in PostgreSQL using Prisma DateTime.
+
+The application must define a consistent timezone policy.
+
+For date-only concepts such as expiry dates, avoid accidental timezone shifts caused by browser parsing.
+
+## 8. Migration Workflow
+
+Development:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+After schema changes:
+
+```bash
+npx prisma migrate dev --name describe_change
+```
+
+Generate client:
+
+```bash
+npx prisma generate
+```
+
+Production:
+
+```bash
+npx prisma migrate deploy
+```
+
+Do not manually edit production database schema when a Prisma migration should be used.
+
+## 9. Seed Data
+
+Optional development seed data may include:
+- Passport.
+- Car Insurance.
+- Driving Licence.
+- Health Insurance.
+
+Do not use fake seed data in production unless intentionally configured.
+
+## 10. Database Security
+
+- Keep `DATABASE_URL` server-side.
+- Never expose database credentials to the browser.
+- Scope queries by authenticated user.
+- Avoid returning unnecessary sensitive fields.
+- Do not log full database records in production.
+
+## 11. Future Extensions
+
+Potential future models:
+- DocumentAttachment.
+- RenewalReminder.
+- Notification.
+- RenewalHistory.
+
+Do not add these until required by the product scope.

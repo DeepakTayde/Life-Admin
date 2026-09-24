@@ -1,0 +1,220 @@
+# Life Admin — Architecture Specification
+
+## 1. Architecture Goal
+
+Use a simple, maintainable full-stack Next.js architecture that keeps UI, API, validation, database access, and business logic separated.
+
+## 2. Technology Stack
+
+- Next.js 16
+- React
+- TypeScript
+- Tailwind CSS
+- PostgreSQL
+- Prisma ORM
+- Zod
+- Authentication/session solution compatible with Next.js
+- Git
+- GitHub
+- Vercel or another suitable Next.js hosting platform
+- Optional AI SDK/provider
+
+## 3. High-Level Architecture
+
+Browser
+  |
+  v
+Next.js App Router
+  |
+  +--> Server Components
+  |       |
+  |       +--> Service layer
+  |               |
+  |               +--> Prisma
+  |
+  +--> Client Components
+  |       |
+  |       +--> API routes / server actions as appropriate
+  |
+  +--> Route Handlers
+          |
+          +--> Authentication
+          +--> Zod validation
+          +--> Service layer
+                  |
+                  +--> Prisma
+                          |
+                          v
+                      PostgreSQL
+
+## 4. Recommended Folder Structure
+
+src/
+├── app/
+│   ├── (auth)/
+│   │   ├── login/
+│   │   └── register/
+│   ├── dashboard/
+│   │   └── page.tsx
+│   ├── documents/
+│   │   ├── page.tsx
+│   │   ├── new/
+│   │   │   └── page.tsx
+│   │   └── [id]/
+│   │       ├── page.tsx
+│   │       └── edit/
+│   │           └── page.tsx
+│   └── api/
+│       ├── dashboard/
+│       │   └── route.ts
+│       └── documents/
+│           ├── route.ts
+│           └── [id]/
+│               └── route.ts
+│
+├── components/
+│   ├── layout/
+│   ├── dashboard/
+│   ├── documents/
+│   └── ui/
+│
+├── lib/
+│   ├── prisma.ts
+│   ├── auth.ts
+│   ├── api.ts
+│   ├── utils.ts
+│   └── validations/
+│       └── document.ts
+│
+├── services/
+│   ├── dashboard.service.ts
+│   └── document.service.ts
+│
+├── types/
+│   ├── document.ts
+│   └── api.ts
+│
+└── tests/
+    ├── unit/
+    ├── integration/
+    └── e2e/
+
+prisma/
+└── schema.prisma
+
+## 5. Layer Responsibilities
+
+### app/
+Routes, pages, layouts, route handlers.
+
+### components/
+Reusable presentation and interaction components.
+
+### lib/
+Infrastructure helpers, Prisma client, auth, validation, API helpers.
+
+### services/
+Business logic and database orchestration.
+
+### types/
+Shared TypeScript types and API contracts.
+
+### prisma/
+Database schema and migrations.
+
+## 6. Server vs Client Components
+
+Prefer Server Components for:
+- Dashboard data retrieval.
+- Initial document lists.
+- Static UI.
+- Detail pages.
+
+Use Client Components for:
+- Search controls.
+- Filter controls.
+- Dropdowns.
+- Modals.
+- Form interactions.
+- Optimistic UI where justified.
+
+Do not add `"use client"` to an entire page unless required.
+
+## 7. API Design
+
+Use predictable JSON responses.
+
+Success:
+{
+  "success": true,
+  "data": {}
+}
+
+Error:
+{
+  "success": false,
+  "message": "Human-readable message"
+}
+
+Validation:
+{
+  "success": false,
+  "errors": {}
+}
+
+Status codes:
+- 200: successful read/update
+- 201: successful creation
+- 400: validation error
+- 401: unauthenticated
+- 404: resource not found/not accessible
+- 409: conflict where applicable
+- 500: unexpected server error
+
+## 8. Request Lifecycle
+
+Request
+  -> authentication
+  -> parse JSON/query parameters
+  -> Zod validation
+  -> authorization/ownership check
+  -> service method
+  -> Prisma query
+  -> response mapping
+  -> JSON response
+
+## 9. Ownership Model
+
+Document must contain userId.
+
+Every read/update/delete operation must be constrained by authenticated user identity.
+
+Preferred pattern:
+
+where: {
+  id,
+  userId: session.user.id
+}
+
+Never accept userId from the browser as an authority.
+
+## 10. Error Handling
+
+- Log technical errors server-side.
+- Return safe messages to users.
+- Do not return SQL/Prisma stack traces.
+- Handle not-found cases explicitly.
+- Keep response shapes consistent.
+
+## 11. Extensibility
+
+The architecture should allow future modules:
+- Reminders/notifications.
+- File attachments.
+- Document OCR.
+- AI extraction.
+- Renewal history.
+- Email notifications.
+- Calendar integration.
+
+These should be added without coupling them tightly to the core Document UI.

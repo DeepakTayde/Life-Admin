@@ -1,0 +1,236 @@
+# Life Admin — Deployment Guide
+
+## 1. Deployment Target
+
+Recommended:
+- Next.js application: Vercel.
+- PostgreSQL: managed PostgreSQL provider compatible with Prisma.
+
+Any equivalent production hosting platform may be used if it supports Next.js correctly.
+
+## 2. Required Production Variables
+
+Example:
+
+```env
+DATABASE_URL="production-postgresql-connection-string"
+AUTH_SECRET="strong-random-secret"
+NEXT_PUBLIC_APP_URL="https://your-domain.example"
+```
+
+Add provider-specific authentication variables if the chosen auth implementation requires them.
+
+Never commit the real `.env` file.
+
+## 3. Git Preparation
+
+Check:
+
+```bash
+git status
+```
+
+Make sure secrets are not staged.
+
+Recommended `.gitignore` entries include:
+
+```text
+.env
+.env.local
+.env.production
+node_modules
+.next
+```
+
+Commit:
+
+```bash
+git add .
+git commit -m "feat: complete life admin application"
+git push origin main
+```
+
+## 4. Production Database
+
+Create a production PostgreSQL database.
+
+Obtain:
+
+```text
+DATABASE_URL
+```
+
+Test the connection from the deployment environment.
+
+## 5. Prisma Production Migration
+
+Do not use development migration commands against production.
+
+Use:
+
+```bash
+npx prisma migrate deploy
+```
+
+Then ensure the application uses the generated Prisma client.
+
+## 6. Build
+
+Typical build command:
+
+```bash
+npm run build
+```
+
+Start command for a traditional Node host:
+
+```bash
+npm run start
+```
+
+For Vercel, the platform detects and builds the Next.js application.
+
+## 7. Vercel Deployment
+
+Steps:
+
+1. Push repository to GitHub.
+2. Create/import the project in Vercel.
+3. Select the GitHub repository.
+4. Configure production environment variables.
+5. Deploy.
+6. Check build logs.
+7. Open the production URL.
+
+## 8. Production Smoke Test
+
+Test:
+
+### Authentication
+- Register.
+- Login.
+- Logout.
+- Protected route access.
+
+### Dashboard
+- Correct document count.
+- Correct expiring-soon count.
+- Correct expired count.
+- Upcoming renewals display.
+
+### CRUD
+- Create.
+- Read.
+- Update.
+- Delete.
+
+### Security
+- User A cannot access User B's document.
+- Unauthenticated user cannot access private API.
+
+### Search/filter
+- Search title.
+- Search document number.
+- Category filter.
+- Status filter.
+- Sorting.
+
+### Responsive UI
+- Mobile.
+- Tablet.
+- Desktop.
+
+## 9. Deployment Safety
+
+Before production:
+- Do not expose database URL.
+- Do not expose auth secret.
+- Do not log credentials.
+- Verify CORS/security configuration if external clients are introduced.
+- Verify production cookies/session settings.
+- Verify error messages do not reveal internals.
+
+## 10. Database Backups
+
+Use the selected PostgreSQL provider's backup capabilities.
+
+The application should not assume that source code backups are database backups.
+
+## 11. CI/CD
+
+A basic GitHub workflow should eventually:
+
+1. Install dependencies.
+2. Run lint/type checks.
+3. Run tests.
+4. Build the application.
+
+Example conceptual pipeline:
+
+```text
+Push / Pull Request
+        |
+        v
+Install
+        |
+        v
+Lint + Type Check
+        |
+        v
+Tests
+        |
+        v
+Build
+        |
+        v
+Deploy
+```
+
+Do not deploy known failing builds.
+
+## 12. Final Submission Checklist
+
+- [ ] GitHub repository available.
+- [ ] Live deployment available.
+- [ ] README contains setup instructions.
+- [ ] Environment variables documented without exposing secrets.
+- [ ] Database migrations included.
+- [ ] Core CRUD works.
+- [ ] Authentication works.
+- [ ] Ownership/security works.
+- [ ] Validation works.
+- [ ] Search/filter works.
+- [ ] Dashboard works.
+- [ ] Responsive UI works.
+- [ ] Tests included and passing.
+- [ ] Optional AI clearly separated from core functionality.
+- [ ] Required author/project footer links included.
+
+## 13. README Minimum Content
+
+README should contain:
+- Project overview.
+- Features.
+- Technology stack.
+- Architecture overview.
+- Local setup.
+- Environment variables.
+- Database setup.
+- Migration commands.
+- Test commands.
+- Build/deployment commands.
+- Live URL.
+- GitHub URL.
+- Optional AI feature description.
+
+## 14. Post-Deployment Monitoring
+
+After deployment:
+- Check application logs.
+- Check failed API requests.
+- Check database connectivity.
+- Verify authentication cookies/session behavior.
+- Verify production environment variables.
+- Monitor build/deployment failures.
+
+Fix production issues through Git commits and redeployments rather than editing production manually.
