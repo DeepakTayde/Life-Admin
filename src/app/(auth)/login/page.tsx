@@ -46,7 +46,7 @@ export default function LoginPage() {
   };
 
   const handleDemoFill = () => {
-    setEmail('deepakTayde@example.com');
+    setEmail('deepaktayde@example.com');
     setPassword('password123');
     setError(null);
   };
@@ -87,7 +87,7 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="deepakTayde@example.com"
+                  placeholder="deepaktayde@example.com"
                   required
                   disabled={isLoading}
                   className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded outline-none focus:ring-2 focus:ring-[#0b3b60] bg-[#fcfdfd]"
@@ -136,7 +136,7 @@ export default function LoginPage() {
               onClick={handleDemoFill}
               className="text-xs text-[#0b3b60] font-bold hover:underline"
             >
-              Fill Demo Credentials (deepakTayde@example.com)
+              Fill Demo Credentials (deepaktayde@example.com)
             </button>
 
             <p className="text-xs text-slate-500">

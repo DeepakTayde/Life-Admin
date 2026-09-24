@@ -6,16 +6,34 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Seeding initial demo data...');
 
-  // Create demo user: deepakTayde
-  const email = 'deepakTayde@example.com';
+  // Remove old test accounts if they exist
+  await prisma.document.deleteMany({
+    where: {
+      user: {
+        email: {
+          in: ['anu@example.com', 'deepakTayde@example.com'],
+        },
+      },
+    },
+  });
+  await prisma.user.deleteMany({
+    where: {
+      email: {
+        in: ['anu@example.com', 'deepakTayde@example.com'],
+      },
+    },
+  });
+
+  // Create demo user: Deepak Tayde (lowercase email)
+  const email = 'deepaktayde@example.com';
   const passwordHash = await bcrypt.hash('password123', 10);
 
   const user = await prisma.user.upsert({
     where: { email },
-    update: { passwordHash, name: 'deepak tayde' },
+    update: { passwordHash, name: 'Deepak Tayde' },
     create: {
       email,
-      name: 'deepak tayde',
+      name: 'Deepak Tayde',
       passwordHash,
     },
   });

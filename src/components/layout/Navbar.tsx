@@ -257,7 +257,7 @@ export function Navbar({ user }: NavbarProps) {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Registered Email:</span>
-                  <span className="font-mono text-slate-800">{user?.email || 'deepakTayde@example.com'}</span>
+                  <span className="font-mono text-slate-800">{user?.email || 'deepaktayde@example.com'}</span>
                 </div>
               </div>
 
