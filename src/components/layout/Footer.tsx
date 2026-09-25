@@ -80,7 +80,7 @@ export function Footer() {
           {/* Social Links */}
           <div className="flex items-center gap-5">
             <a
-              href="https://github.com"
+              href="https://github.com/DeepakTayde"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
@@ -101,7 +101,7 @@ export function Footer() {
             </a>
 
             <a
-              href="https://linkedin.com"
+              href="https://linkedin.com/in/deepak-tayde"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-slate-300 hover:text-[#ff9933] transition-colors"

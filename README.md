@@ -195,11 +195,11 @@ npm run test
    - `AUTH_SECRET`: Random 32+ character secret
    - `NEXT_PUBLIC_APP_URL`: Your live domain (e.g., `https://life-admin.vercel.app`)
    - `GEMINI_API_KEY`: (Optional) Google Gemini API key
-3. Run Prisma deployment migration:
+3. Deploy the application (`npm run build` will automatically run `prisma db push` to initialize tables).
+4. (Optional) Seed the demo citizen account in production:
    ```bash
-   npx prisma migrate deploy
+   npx prisma db seed
    ```
-4. Deploy the application (`npm run build`).
 
 ---
 
@@ -207,5 +207,5 @@ npm run test
 
 Built by **Deepak Tayde**
 
-- [GitHub Profile](https://github.com)
-- [LinkedIn Profile](https://linkedin.com)
+- [GitHub Profile](https://github.com/DeepakTayde)
+- [LinkedIn Profile](https://linkedin.com/in/deepak-tayde)
